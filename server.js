@@ -15,6 +15,11 @@ app.use(
 );
 app.use(bodyParser.json());
 
+// serve static files if in prod
+if (process.env.NODE_ENV === 'production') {
+  app.use((express.static('client/build')));
+}
+
 // DB Config
 const db = require("./config/keys").mongoURI;
 
@@ -22,7 +27,7 @@ const db = require("./config/keys").mongoURI;
 mongoose
   .connect(
     db,
-    { useNewUrlParser: true }
+   { useNewUrlParser: true }
   )
   .then(() => console.log("MongoDB successfully connected"))
   .catch(err => console.log(err));
